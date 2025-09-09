@@ -40,7 +40,7 @@ export const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => 
             Recent Expenses
           </CardTitle>
           <div className="text-2xl font-bold amount-negative">
-            -${totalAmount.toFixed(2)}
+            -₹{totalAmount.toFixed(2)}
           </div>
         </CardHeader>
       </Card>
@@ -70,7 +70,7 @@ export const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => 
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-lg font-semibold amount-negative">
-                      -${expense.amount.toFixed(2)}
+                      -₹{expense.amount.toFixed(2)}
                     </span>
                     <Button
                       variant="ghost"
