@@ -33,18 +33,6 @@ export const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => 
 
   return (
     <div className="space-y-4">
-      <Card className="expense-card">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Receipt className="h-5 w-5 text-primary" />
-            Recent Expenses
-          </CardTitle>
-          <div className="text-2xl font-bold amount-negative">
-            -₹{totalAmount.toFixed(2)}
-          </div>
-        </CardHeader>
-      </Card>
-
       <div className="space-y-3">
         {expenses.length === 0 ? (
           <Card className="expense-card">

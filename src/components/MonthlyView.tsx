@@ -4,7 +4,7 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, Calendar, Edit3, Check, X } from 'lucide-react';
+import { TrendingUp, Calendar, Edit3, Check, X, Receipt } from 'lucide-react';
 
 interface Expense {
   id: string;
@@ -59,6 +59,20 @@ export const MonthlyView = ({ expenses, monthlyBudget = 2000 }: MonthlyViewProps
 
   return (
     <div className="space-y-6">
+      <Card className="expense-card">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Receipt className="h-5 w-5 text-primary" />
+            Recent Expenses
+          </CardTitle>
+          {expenses.length > 0 && (
+            <div className="text-2xl font-bold amount-negative">
+              -₹{totalSpent.toFixed(2)}
+            </div>
+          )}
+        </CardHeader>
+      </Card>
+
       <Card className="expense-card">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
