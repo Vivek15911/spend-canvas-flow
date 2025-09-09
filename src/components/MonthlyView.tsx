@@ -153,23 +153,6 @@ export const MonthlyView = ({ expenses, monthlyBudget = 2000 }: MonthlyViewProps
         </CardContent>
       </Card>
 
-      <Card className="expense-card">
-        <CardContent className="pt-6">
-          <div className="text-center space-y-2">
-            <h3 className="font-semibold text-lg">Recent Expenses</h3>
-            <div className="text-2xl font-bold amount-negative">
-              ₹{expenses
-                .slice(0, 5)
-                .reduce((sum, expense) => sum + expense.amount, 0)
-                .toFixed(2)
-              }
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Last {Math.min(expenses.length, 5)} transactions
-            </p>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
