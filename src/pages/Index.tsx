@@ -4,6 +4,7 @@ import { ExpenseForm } from '@/components/ExpenseForm';
 import { ExpenseList } from '@/components/ExpenseList';
 import { MonthlyView } from '@/components/MonthlyView';
 import { CategoryBreakdown } from '@/components/CategoryBreakdown';
+import { MonthlyHistory } from '@/components/MonthlyHistory';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Wallet } from 'lucide-react';
 
@@ -53,21 +54,18 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Left Panel - Add Expenses (25%) */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Panel - Add Expenses & Category Breakdown (25%) */}
           <div className="lg:col-span-1 space-y-6">
             <ExpenseForm onAddExpense={addExpense} />
-            <ExpenseList expenses={expenses} onDeleteExpense={deleteExpense} />
-          </div>
-
-          {/* Middle Panel - Monthly View (50%) */}
-          <div className="lg:col-span-2">
-            <MonthlyView expenses={expenses} />
-          </div>
-
-          {/* Right Panel - Category Breakdown (25%) */}
-          <div className="lg:col-span-1">
             <CategoryBreakdown expenses={expenses} />
+            <MonthlyHistory expenses={expenses} />
+          </div>
+
+          {/* Middle Panel - Monthly View & Expense List (50%) */}
+          <div className="lg:col-span-2 space-y-6">
+            <MonthlyView expenses={expenses} />
+            <ExpenseList expenses={expenses} onDeleteExpense={deleteExpense} />
           </div>
         </div>
       </main>
