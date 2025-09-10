@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ExpenseForm } from '@/components/ExpenseForm';
 import { ExpenseList } from '@/components/ExpenseList';
 import { MonthlyView } from '@/components/MonthlyView';
-import { YearlyHistory } from '@/components/YearlyHistory';
+import { CategoryBreakdown } from '@/components/CategoryBreakdown';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Wallet } from 'lucide-react';
 
@@ -65,9 +65,9 @@ const Index = () => {
             <MonthlyView expenses={expenses} />
           </div>
 
-          {/* Right Panel - Yearly History (25%) */}
+          {/* Right Panel - Category Breakdown (25%) */}
           <div className="lg:col-span-1">
-            <YearlyHistory expenses={expenses} />
+            <CategoryBreakdown expenses={expenses} />
           </div>
         </div>
       </main>
