@@ -4,6 +4,7 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TrendingUp, Calendar, Edit3, Check, X, Receipt } from 'lucide-react';
 
 interface Expense {
@@ -23,8 +24,18 @@ export const MonthlyView = ({ expenses, monthlyBudget = 2000 }: MonthlyViewProps
   const [budget, setBudget] = useState(monthlyBudget);
   const [isEditingBudget, setIsEditingBudget] = useState(false);
   const [tempBudget, setTempBudget] = useState(budget.toString());
+  
+  const currentDate = new Date();
+  const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth());
+  const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
+  const [isEditingDate, setIsEditingDate] = useState(false);
 
-  const currentMonth = new Date().toLocaleString('default', { month: 'long', year: 'numeric' });
+  const monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  
+  const currentMonthYear = `${monthNames[selectedMonth]} ${selectedYear}`;
   const totalSpent = expenses.reduce((sum, expense) => sum + expense.amount, 0);
   const remainingBudget = budget - totalSpent;
   const budgetPercentage = (totalSpent / budget) * 100;
@@ -59,25 +70,58 @@ export const MonthlyView = ({ expenses, monthlyBudget = 2000 }: MonthlyViewProps
 
   return (
     <div className="space-y-6">
-      <Card className="expense-card">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Receipt className="h-5 w-5 text-primary" />
-            Recent Expenses
-          </CardTitle>
-          {expenses.length > 0 && (
+      {expenses.length > 0 && (
+        <Card className="expense-card">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Receipt className="h-5 w-5 text-primary" />
+              Recent Expenses
+            </CardTitle>
             <div className="text-2xl font-bold amount-negative">
               -₹{totalSpent.toFixed(2)}
             </div>
-          )}
-        </CardHeader>
-      </Card>
+          </CardHeader>
+        </Card>
+      )}
 
       <Card className="expense-card">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Calendar className="h-5 w-5 text-primary" />
-            {currentMonth}
+            {isEditingDate ? (
+              <div className="flex items-center gap-2">
+                <Select value={selectedMonth.toString()} onValueChange={(value) => setSelectedMonth(parseInt(value))}>
+                  <SelectTrigger className="w-32">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {monthNames.map((month, index) => (
+                      <SelectItem key={index} value={index.toString()}>
+                        {month}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Input
+                  type="number"
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+                  className="w-20"
+                  min="2020"
+                  max="2030"
+                />
+                <Button size="sm" variant="ghost" onClick={() => setIsEditingDate(false)} className="h-6 w-6 p-0">
+                  <Check className="h-3 w-3" />
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1">
+                <span>{currentMonthYear}</span>
+                <Button size="sm" variant="ghost" onClick={() => setIsEditingDate(true)} className="h-6 w-6 p-0">
+                  <Edit3 className="h-3 w-3" />
+                </Button>
+              </div>
+            )}
           </CardTitle>
         </CardHeader>
         <CardContent>
