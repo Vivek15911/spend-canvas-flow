@@ -55,21 +55,21 @@ const Index = () => {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Left Panel - 12-Month History (25%) */}
-          <div className="lg:col-span-1">
-            <MonthlyHistory expenses={expenses} />
-          </div>
-
-          {/* Left-Middle Panel - Add Expenses (25%) */}
+          {/* Left Panel - Add Expenses (25%) */}
           <div className="lg:col-span-1 space-y-6">
             <ExpenseForm onAddExpense={addExpense} />
             <CategoryBreakdown expenses={expenses} />
           </div>
 
-          {/* Right Panel - Monthly View & Expense List (50%) */}
+          {/* Middle Panel - Monthly View & Expense List (50%) */}
           <div className="lg:col-span-2 space-y-6">
             <MonthlyView expenses={expenses} />
             <ExpenseList expenses={expenses} onDeleteExpense={deleteExpense} />
+          </div>
+
+          {/* Right Panel - 12-Month History (25%) */}
+          <div className="lg:col-span-1">
+            <MonthlyHistory expenses={expenses} />
           </div>
         </div>
       </main>
