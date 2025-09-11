@@ -31,6 +31,15 @@ const categoryColors: Record<string, string> = {
 export const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => {
   const totalAmount = expenses.reduce((sum, expense) => sum + expense.amount, 0);
 
+  // Group expenses by category
+  const expensesByCategory = expenses.reduce((acc, expense) => {
+    if (!acc[expense.category]) {
+      acc[expense.category] = [];
+    }
+    acc[expense.category].push(expense);
+    return acc;
+  }, {} as Record<string, Expense[]>);
+
   return (
     <div className="space-y-4">
       <div className="space-y-3">
@@ -41,38 +50,56 @@ export const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => 
             </CardContent>
           </Card>
         ) : (
-          expenses.map((expense) => (
-            <Card key={expense.id} className="expense-card hover:scale-[1.02] transition-bounce">
-              <CardContent className="pt-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Badge className={categoryColors[expense.category] || categoryColors['Other']}>
-                        {expense.category}
+          Object.entries(expensesByCategory).map(([category, categoryExpenses]) => {
+            const categoryTotal = categoryExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+            
+            return (
+              <Card key={category} className="expense-card hover:scale-[1.02] transition-bounce">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Badge className={categoryColors[category] || categoryColors['Other']}>
+                        {category}
                       </Badge>
+                      <span className="text-sm text-muted-foreground">
+                        {categoryExpenses.length} item{categoryExpenses.length > 1 ? 's' : ''}
+                      </span>
                     </div>
-                    <h4 className="font-medium">{expense.name}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {expense.date.toLocaleDateString()}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
                     <span className="text-lg font-semibold amount-negative">
-                      -₹{expense.amount.toFixed(2)}
+                      -₹{categoryTotal.toFixed(2)}
                     </span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => onDeleteExpense(expense.id)}
-                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="space-y-3">
+                    {categoryExpenses.map((expense) => (
+                      <div key={expense.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                        <div className="flex-1">
+                          <h4 className="font-medium">{expense.name}</h4>
+                          <p className="text-sm text-muted-foreground">
+                            {expense.date.toLocaleDateString()}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold amount-negative">
+                            -₹{expense.amount.toFixed(2)}
+                          </span>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => onDeleteExpense(expense.id)}
+                            className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })
         )}
       </div>
     </div>
