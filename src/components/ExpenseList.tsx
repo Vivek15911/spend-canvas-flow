@@ -29,7 +29,6 @@ const categoryColors: Record<string, string> = {
 };
 
 export const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => {
-  console.log('ExpenseList received expenses:', expenses);
   const totalAmount = expenses.reduce((sum, expense) => sum + expense.amount, 0);
 
   // Group expenses by category

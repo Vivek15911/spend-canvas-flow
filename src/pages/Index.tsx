@@ -17,7 +17,15 @@ interface Expense {
 }
 
 const Index = () => {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [expenses, setExpenses] = useState<Expense[]>([
+    {
+      id: "test-1",
+      category: "Food & Dining",
+      name: "Test Coffee",
+      amount: 5.50,
+      date: new Date()
+    }
+  ]);
 
   const addExpense = (expenseData: Omit<Expense, 'id' | 'date'>) => {
     // Check if expense with same category and name already exists
