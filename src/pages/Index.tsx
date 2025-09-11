@@ -101,7 +101,7 @@ const Index = () => {
       <footer className="border-t border-border/50 bg-card/30 backdrop-blur-sm mt-12">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="text-center text-sm text-muted-foreground">
-            <p>Track your expenses • Plan your budget • Achieve your goals</p>
+            <p>© 2025 Vivek Kumar. All rights reserved.</p>
           </div>
         </div>
       </footer>
