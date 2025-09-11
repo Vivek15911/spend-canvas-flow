@@ -38,13 +38,18 @@ export const ExpenseForm = ({ onAddExpense }: ExpenseFormProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!category || !name || !amount) return;
+    if (!category || !name || !amount) {
+      console.log('Form validation failed:', { category, name, amount });
+      return;
+    }
     
-    onAddExpense({
+    const expenseData = {
       category,
       name,
       amount: parseFloat(amount)
-    });
+    };
+    console.log('Adding expense:', expenseData);
+    onAddExpense(expenseData);
     
     setName('');
     setAmount('');
