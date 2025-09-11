@@ -19,14 +19,13 @@ interface ExpenseFormProps {
 }
 
 const categories = [
-  'Food & Dining',
-  'Transportation',
+  'Food',
+  'Traveling',
   'Shopping',
-  'Entertainment',
-  'Bills & Utilities',
+  'Bills',
   'Healthcare',
   'Education',
-  'Travel',
+  'Grocery',
   'Other'
 ];
 
