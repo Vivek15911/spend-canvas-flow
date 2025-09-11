@@ -20,12 +20,27 @@ const Index = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
   const addExpense = (expenseData: Omit<Expense, 'id' | 'date'>) => {
-    const newExpense: Expense = {
-      ...expenseData,
-      id: Date.now().toString(),
-      date: new Date()
-    };
-    setExpenses(prev => [newExpense, ...prev]);
+    // Check if expense with same category and name already exists
+    const existingExpenseIndex = expenses.findIndex(
+      expense => expense.category === expenseData.category && expense.name === expenseData.name
+    );
+
+    if (existingExpenseIndex !== -1) {
+      // Update existing expense by adding the amount
+      setExpenses(prev => prev.map((expense, index) => 
+        index === existingExpenseIndex 
+          ? { ...expense, amount: expense.amount + expenseData.amount, date: new Date() }
+          : expense
+      ));
+    } else {
+      // Create new expense
+      const newExpense: Expense = {
+        ...expenseData,
+        id: Date.now().toString(),
+        date: new Date()
+      };
+      setExpenses(prev => [newExpense, ...prev]);
+    }
   };
 
   const deleteExpense = (id: string) => {
