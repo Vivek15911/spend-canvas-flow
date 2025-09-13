@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ExpenseForm } from '@/components/ExpenseForm';
 import { ExpenseList } from '@/components/ExpenseList';
@@ -17,15 +17,42 @@ interface Expense {
 }
 
 const Index = () => {
-  const [expenses, setExpenses] = useState<Expense[]>([
-    {
-      id: "test-1",
-      category: "Food & Dining",
-      name: "Test Coffee",
-      amount: 5.50,
-      date: new Date()
+  // Load expenses from localStorage on component mount
+  const [expenses, setExpenses] = useState<Expense[]>(() => {
+    try {
+      const savedExpenses = localStorage.getItem('expenses');
+      if (savedExpenses) {
+        const parsed = JSON.parse(savedExpenses);
+        // Convert date strings back to Date objects
+        return parsed.map((expense: any) => ({
+          ...expense,
+          date: new Date(expense.date)
+        }));
+      }
+    } catch (error) {
+      console.error('Failed to load expenses from localStorage:', error);
     }
-  ]);
+    
+    // Default expenses if nothing in localStorage
+    return [
+      {
+        id: "test-1",
+        category: "Food & Dining",
+        name: "Test Coffee",
+        amount: 5.50,
+        date: new Date()
+      }
+    ];
+  });
+
+  // Save expenses to localStorage whenever expenses change
+  useEffect(() => {
+    try {
+      localStorage.setItem('expenses', JSON.stringify(expenses));
+    } catch (error) {
+      console.error('Failed to save expenses to localStorage:', error);
+    }
+  }, [expenses]);
 
   const addExpense = (expenseData: Omit<Expense, 'id' | 'date'>) => {
     // Check if expense with same category and name already exists
